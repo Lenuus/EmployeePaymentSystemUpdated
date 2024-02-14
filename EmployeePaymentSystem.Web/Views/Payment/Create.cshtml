@@ -1,0 +1,71 @@
+﻿@model PaymentCreateRequestModel
+
+<form asp-action="Create" method="post">
+    <div class="row">
+        <div class="col-md-12" style="margin-bottom:20px;">
+            <div class="row">
+                <div class="col-md-2">
+                    <span>Personel: </span>
+                </div>
+                <div class="col-md-10">
+                    <select asp-for="EmployeeId" class="form-control" asp-items="@(new SelectList(ViewBag.Employees, "Id", "FullName"))"></select>
+                    <span asp-validation-for="EmployeeId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" style="margin-bottom:20px;">
+            <div class="row">
+                <div class="col-md-2">
+                    <span>Sezon: </span>
+                </div>
+                <div class="col-md-10">
+                    <select asp-for="SeasonId" class="form-control" asp-items="@(new SelectList(ViewBag.Seasons, "Id", "Name"))"></select>
+                    <span asp-validation-for="SeasonId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" style="margin-bottom:20px;">
+            <div class="row">
+                <div class="col-md-2">
+                    <span>Ödeme Tipi: </span>
+                </div>
+                <div class="col-md-10">
+                    <select asp-for="PaymentType" class="form-control">
+                        <option value="1">Maaş</option>
+                        <option value="2">Prim</option>
+                    </select>
+                    <span asp-validation-for="PaymentType" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" style="margin-bottom:20px;">
+            <div class="row">
+                <div class="col-md-2">
+                    <span>Ödeme Tutarı: </span>
+                </div>
+                <div class="col-md-10">
+                    <input type="number" asp-for="Payment" class="form-control" />
+                    <span asp-validation-for="Payment" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" style="margin-bottom:20px;">
+            <div class="row">
+                <div class="col-md-2">
+                    <span>Ödeme Kuru: </span>
+                </div>
+                <div class="col-md-10">
+                    <select asp-for="Currency" class="form-control">
+                        <option value="TL">TL</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                    </select>
+                    <span asp-validation-for="Currency" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-success btn-block">Oluştur</button>
+        </div>
+    </div>
+</form>

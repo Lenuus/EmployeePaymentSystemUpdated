@@ -1,0 +1,102 @@
+﻿@model PagedResponseModel<PaymentListResponseModel>
+@{
+    var search = @ViewContext.HttpContext.Request.Query["Search"];
+    var pageSize = @ViewContext.HttpContext.Request.Query["PageSize"].SingleOrDefault() ?? int.MaxValue.ToString();
+    var pageIndex = @ViewContext.HttpContext.Request.Query["PageIndex"].SingleOrDefault() ?? "0";
+}
+<form asp-action="Index" method="get" id="pagedList">
+    <a asp-action="Create" class="btn btn-success" style="margin-top: 20px; margin-bottom:20px;">Yeni Ödeme Oluştur</a><br />
+    <input type="text" name="Search" value="@search" class="form-control" style="margin-bottom:20px;" />
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Çalışan Adı</th>
+                <th>Sezon</th>
+                <th>Türü</th>
+                <th>Tutar</th>
+                <th>
+                    İşlemler
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var payment in Model.Data)
+            {
+                <tr id="payment_@payment.Id">
+                    <td>@payment.EmployeeName</td>
+                    <td>@payment.SeasonName</td>
+                    <td>
+                        @switch (payment.PaymentType)
+                        {
+                            case PaymentType.Bonus:
+                                <text>Prim</text>
+                                break;
+                            case PaymentType.Salary:
+                                <text>Maaş</text>
+                                break;
+                            default:
+                                break;
+                        }
+                    </td>
+                    <td>@($"{payment.Payment.ToString("n")}{payment.Currency}")</td>
+                    <td>
+                        <button type="button" class="btn btn-danger btnDelete" data-id="@payment.Id">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </button>
+                        <a href="/Payment/Update/@payment.Id" class="btn btn-warning">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div style="float:left;">
+        @for (int i = 0; i < Model.TotalPage; i++)
+        {
+            <button type="submit" value="@i" class="btn @(pageIndex == i.ToString() ? "btn-success": "btn-info")" name="PageIndex">@(i + 1)</button>
+        }
+    </div>
+    <select name="PageSize" class="form-control" style="float:right; width:200px;" onchange="document.getElementById('pagedList').submit()">
+        <!option value="1" @(pageSize == "1" ? "selected" : string.Empty)>
+        1
+        </!option>
+        <!option value="5" @(pageSize == "5" ? "selected" : string.Empty)>
+        5
+        </!option>
+        <!option value="20" @(pageSize == "20" ? "selected" : string.Empty)>
+        20
+        </!option>
+        <!option value="50" @(pageSize == "50" ? "selected" : string.Empty)>
+        50
+        </!option>
+        <!option value="100" @(pageSize == "100" ? "selected" : string.Empty)>
+        100
+        </!option>
+        <!option value="@int.MaxValue" @(pageSize == int.MaxValue.ToString() ? "selected" : string.Empty)>
+        Hepsi
+        </!option>
+    </select>
+</form>
+@section Scripts{
+    <script>
+        $(function () {
+            $(".btnDelete").click(function () {
+                var id = $(this).attr("data-id");
+                if (confirm("Silmek istediğinizden emin misiniz?")) {
+                    $.ajax({
+                        url: "/Payment/Delete/" + id,
+                        type: "DELETE",
+                        success: function (response) {
+                            $("#payment_" + id).remove();
+                            console.log("Başarılı", response);
+                        },
+                        error: function (response) {
+                            console.log("Hata: ", response);
+                        }
+                    })
+                }
+            });
+        });
+    </script>
+}

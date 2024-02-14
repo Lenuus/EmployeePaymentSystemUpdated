@@ -1,0 +1,53 @@
+﻿@model CreateEmployeeRequestModel
+
+<form asp-action="Create" method="post">
+    <div class="row">
+        <div class="col-md-12" style="margin-bottom:20px;">
+            <div class="row">
+                <div class="col-md-2">
+                    <span>Adı: </span>
+                </div>
+                <div class="col-md-10">
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" style="margin-bottom:20px;">
+            <div class="row">
+                <div class="col-md-2">
+                    <span>Soyadı: </span>
+                </div>
+                <div class="col-md-10">
+                    <input asp-for="Surname" class="form-control" />
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" style="margin-bottom:20px;">
+            <div class="row">
+                <div class="col-md-2">
+                    <span>Tc Kimlik No: </span>
+                </div>
+                <div class="col-md-10">
+                    <input asp-for="Tckn" class="form-control" />
+                    <span asp-validation-for="Tckn" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" style="margin-bottom:20px;">
+            <div class="row">
+                <div class="col-md-2">
+                    <span>İşe Başlama Tarihi: </span>
+                </div>
+                <div class="col-md-10">
+                    <input asp-for="HiringDate" type="date" class="form-control" />
+                    <span asp-validation-for="HiringDate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-success btn-block">Oluştur</button>
+        </div>
+    </div>
+</form>
